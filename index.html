@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StreamFlix</title>
+ <link rel="icon" type="image/x-icon" href="images.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+  <div class="login-bg-art"></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">S</div>
+      <div class="login-logo-text">StreamFlix</div>
+    </div>
+    <h1 class="login-heading">Welcome back 👋</h1>
+    <p class="login-subtext">Sign in to continue streaming your favourite movies and series.</p>
+    <div class="login-error" id="loginError"></div>
+    <form id="loginForm" novalidate>
+      <div class="login-field">
+        <label class="login-label" for="loginEmail">Email</label>
+        <input class="login-input" id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="login-field">
+        <label class="login-label" for="loginPassword">Password</label>
+        <input class="login-input" id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button type="submit" class="login-btn">Sign In</button>
+    </form>
+    <div class="login-divider">or</div>
+    <button class="login-demo-btn" id="demoBtn">▶ Continue with Demo Account</button>
+    <div class="login-footer">
+      Don't have an account? <a class="login-link">Sign up</a> &nbsp;·&nbsp;
+      <a class="login-link">Forgot password?</a>
+    </div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="appShell" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">Ayu</div>
+    <div id="homeBtn" class="sicon active" title="Home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div id="aiSidebarBtn" class="sicon" title="AI Suggestion">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+        <path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5z"/>
+        <path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z"/>
+      </svg>
+    </div>
+
+    <div class="sidebar-sep"></div>
+   <div id="profileBtn" class="sicon" title="Profile">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <div class="sicon" title="Settings">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+    </div>
+  </aside>
+  <!-- WATCHLIST PAGE -->
+
+
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="search-bar">
+        <span class="search-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </span>
+        <input type="text" id="searchInput" placeholder="Search movies, series…" autocomplete="off">
+      </div>
+
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-type="movie">Movie</button>
+        <button class="nav-tab" data-type="tv">TV Series</button>
+        <button class="nav-tab" data-type="animation">Animation</button>
+        <button class="nav-tab" data-type="anime">Anime</button>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Language picker -->
+        <div class="lang-picker" id="langPicker">
+          <span class="lang-flag" id="langFlag">🇬🇧</span>
+          <span class="lang-code" id="langCode">EN</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="lang-dropdown" id="langDropdown"></div>
+        </div>
+        <!-- User chip -->
+        <div class="user-chip" id="userChip">
+          <div class="avatar" id="avatarDisplay">DU</div>
+          <span class="user-name" id="userNameDisplay">Demo User</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-item" id="myProfileDropdownBtn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              My Profile
+            </div>
+            <div class="user-dropdown-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+              Settings
+            </div>
+            <div class="user-dropdown-sep"></div>
+            <div class="user-dropdown-item danger" id="logoutBtn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH RESULTS -->
+    <div class="search-results-panel" id="searchPanel"></div>
+
+    <div id="libraryPage" style="display:none; padding:30px;">
+
+    <button id="backHomeBtn"
+    style="
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:20px;
+    cursor:pointer;">
+    
+    ← Back
+    
+    </button>
+
+    <h1 id="libraryTitle"
+    style="color:white;margin-bottom:25px;">
+    </h1>
+
+    <div id="libraryMovies"
+    style="
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:20px;">
+    </div>
+
+</div>
+
+    <!-- AI SUGGESTIONS PAGE -->
+    <div id="aiPage" style="display:none; padding:30px; min-height: calc(100vh - 70px); flex-direction: column; justify-content: space-between;">
+      <!-- Header -->
+      <div class="ai-header" style="margin-bottom: 25px;">
+        <h1 style="font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI Movie Suggestion</h1>
+        <p style="color: var(--muted); font-size: 14px; margin-top: 5px;">Describe a scene, hint at a plot, name characters, choose a language, and let AI discover your next watch.</p>
+      </div>
+
+      <!-- Main Chat / Finder Section -->
+      <div class="ai-main-section" style="display: flex; flex: 1; gap: 24px; min-height: 500px; flex-wrap: wrap;">
+        <!-- Chat log -->
+        <div class="ai-chat-container" style="flex: 1; min-width: 320px; display: flex; flex-direction: column; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 20px; backdrop-filter: blur(10px); padding: 20px;">
+          
+          <!-- Messages List -->
+          <div id="aiChatLog" style="flex: 1; overflow-y: auto; max-height: 450px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; padding-right: 8px;">
+            <!-- Welcome message from AI -->
+            <div class="ai-msg ai-msg-bot" style="align-self: flex-start; max-width: 80%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 14px; line-height: 1.5;">
+              Hello! 👋 I am your AI Cinema Assistant. 
+              <br><br>
+              Tell me what you're in the mood for. You can:
+              <ul style="margin-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+                <li>Give me a hint of the plot (e.g., <em>"a boy goes to wizard school"</em>)</li>
+                <li>Describe a scene or theme (e.g., <em>"sci-fi with lasers in space"</em>)</li>
+                <li>Mention a character (e.g., <em>"movies with Jack Sparrow"</em>)</li>
+                <li>Specify a language or genre (e.g., <em>"funny animation in Hindi"</em>)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Quick suggestion chips -->
+          <div class="ai-suggestions-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <button class="ai-chip" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 12px; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.2s;" onclick="setAiInput('Top Hindi comedy movies ')">🧙‍♂️ hindi Comedy movies</button>
+            <button class="ai-chip" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 12px; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.2s;" onclick="setAiInput('classic sci-fi movies like interstellar, matrix, star wars, arrival, alien')">🚀 Sci-Fi movies</button>
+            <button class="ai-chip" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 12px; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.2s;" onclick="setAiInput('Avengers movies')">☠️ Marvels</button>
+            <button class="ai-chip" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 12px; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.2s;" onclick="setAiInput('Animated movies')">🪼Animated</button>
+
+          </div>
+
+          <!-- Input box -->
+          <div class="ai-input-wrapper" style="display: flex; gap: 10px;">
+            <input type="text" id="aiInput" placeholder="Describe movie, scene, character or language..." style="flex: 1; background: rgba(0, 0, 0, 0.2); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px 16px; color: white; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border 0.2s;" />
+            <button id="aiSubmitBtn" style="background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; border-radius: 12px; padding: 0 20px; color: white; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px var(--accent-glow); transition: transform 0.1s, opacity 0.2s;">
+              Ask AI
+            </button>
+          </div>
+        </div>
+
+        <!-- Recommendations Output Grid -->
+        <div class="ai-results-container" style="flex: 1.2; min-width: 320px; display: flex; flex-direction: column; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 20px;">
+          <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+            <span style="display: inline-block; width: 6px; height: 18px; background: var(--accent); border-radius: 3px;"></span>
+            Suggested Movies
+          </h3>
+          
+          <!-- Grid/List for results -->
+          <div id="aiMoviesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px; flex: 1; align-content: start; overflow-y: auto; max-height: 480px;">
+            <div style="grid-column: 1 / -1; color: var(--muted); text-align: center; padding: 40px 0; font-size: 14px;">
+              Suggestions will appear here after you ask the AI.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOME CONTENT -->
+    <div class="home-content">
+
+      <!-- HERO -->
+      <div class="hero" id="heroSection">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="trending-badge">🔥 Trending Now</div>
+          <div class="hero-title" id="heroTitle">Loading…</div>
+          <div class="hero-tags" id="heroTags"></div>
+          <div class="hero-desc" id="heroDesc"></div>
+          <div class="hero-actions">
+            <button class="btn-watch" id="heroWatch">▶ Watch Now</button>
+            <button class="btn-dl" id="heroMore">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              More Info
+            </button>
+          </div>
+        </div>
+        <div class="hero-nav">
+          <div class="hero-nav-btn" id="heroPrev">‹</div>
+          <div class="hero-nav-btn" id="heroNext">›</div>
+        </div>
+      </div>
+          <!-- AD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8678909877053826"
+     data-ad-slot="YOUR-SLOT-ID"
+     data-ad-format="auto"
+     data-full-width-responsive="true">
+</ins>
+
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+      <!-- ROWS CONTAINER -->
+      <div class="rows-container">
+
+        <!-- Category/Genre Selector Section -->
+        <div class="categories-container">
+          <div class="categories-scroll">
+            <div class="category-card scifi" data-genre="878" data-name="Sci-Fi">
+              <div class="category-card-overlay"></div>
+              <span class="category-card-title">Sci-Fi</span>
+            </div>
+            <div class="category-card romance" data-genre="10749" data-name="Romance">
+              <div class="category-card-overlay"></div>
+              <span class="category-card-title">Romance</span>
+            </div>
+            <div class="category-card action" data-genre="28" data-name="Action">
+              <div class="category-card-overlay"></div>
+              <span class="category-card-title">Action</span>
+            </div>
+            <div class="category-card thriller" data-genre="53" data-name="Thriller">
+              <div class="category-card-overlay"></div>
+              <span class="category-card-title">Thriller</span>
+            </div>
+            <div class="category-card drama" data-genre="18" data-name="Drama">
+              <div class="category-card-overlay"></div>
+              <span class="category-card-title">Drama</span>
+            </div>
+            <div class="category-card comedy" data-genre="35" data-name="Comedy">
+              <div class="category-card-overlay"></div>
+              <span class="category-card-title">Comedy</span>
+            </div>
+            <div class="category-card historic" data-genre="36" data-name="Historic & Mythology">
+              <div class="category-card-overlay"></div>
+              <span class="category-card-title">Historic & Mythology</span>
+            </div>
+            <div class="category-card reality" data-genre="10764" data-name="Reality" data-type="tv">
+              <div class="category-card-overlay"></div>
+              <span class="category-card-title">Reality</span>
+            </div>
+          </div>
+        </div>
+   
+
+          <!-- Row: Continue Watching -->
+        <div class="row-section" id="cwRow">
+          <div class="row-header">
+            <div class="row-title"><span class="row-bar"></span> Continue Watching</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="cwList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="cwList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="cwList">›</button>
+          </div>
+        </div>
+    
+
+
+        <!-- Row: Spider-Mania -->
+        <div class="row-section" id="spiderManiaRow">
+          <div class="row-header">
+            <div class="row-title"><span class="row-bar"></span> Spider-Mania</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="spiderManiaList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="spiderManiaList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="spiderManiaList">›</button>
+          </div>
+        </div>
+
+        <!-- Row: Marvel Multiverse -->
+        <div class="row-section" id="marvelMultiverseRow">
+          <div class="row-header">
+            <div class="row-title"><span class="row-bar"></span> Marvel Multiverse</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="marvelMultiverseList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="marvelMultiverseList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="marvelMultiverseList">›</button>
+          </div>
+        </div>
+
+        <!-- Row: Trending -->
+        <div class="row-section" id="trendingRow">
+          <div class="row-header">
+            <div class="row-title"><span class="row-bar"></span> Trending This Week</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="trendingList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="trendingList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="trendingList">›</button>
+          </div>
+        </div>
+   
+
+        <!-- Row: Top Rated Movies -->
+      <div class="row-section" id="moviesRow">
+  <div class="row-header">
+    <div class="row-title" id="moviesSectionTitle">
+      <span class="row-bar"></span>
+      Top Rated Movies
+    </div>
+  </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="moviesList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="moviesList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="moviesList">›</button>
+          </div>
+        </div>
+
+          <!-- Row: Harry Potter -->
+        <div class="row-section" id="harryPotterRow">
+          <div class="row-header">
+            <div class="row-title"><span class="row-bar"></span> Harry Potter Wizarding World</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="harryPotterList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="harryPotterList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="harryPotterList">›</button>
+          </div>
+        </div>
+
+          <!-- Row: Popular Series -->
+        <div class="row-section" id="seriesRow">
+          <div class="row-header">
+            <div class="row-title"><span class="row-bar"></span> Popular Series</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="seriesList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="seriesList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="seriesList">›</button>
+          </div>
+        </div>
+     <!-- Row: Oof, That's Scary -->
+        <div class="row-section" id="scaryRow">
+          <div class="row-header">
+            <div class="row-title" id="scarySectionTitle"><span class="row-bar"></span> Oof, That's Scary</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="scaryList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="scaryList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="scaryList">›</button>
+          </div>
+        </div>
+
+        <!-- Row: Indian Thrillers -->
+        <div class="row-section" id="indianThrillerRow">
+          <div class="row-header">
+            <div class="row-title" id="thrillerSectionTitle"><span class="row-bar"></span> Indian Thrillers</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="indianThrillerList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="indianThrillerList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="indianThrillerList">›</button>
+          </div>
+        </div>
+
+        <!-- Row: Indian Romance -->
+        <div class="row-section" id="indianRomanceRow">
+          <div class="row-header">
+            <div class="row-title" id="romanceSectionTitle"><span class="row-bar"></span> Indian Romance</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="indianRomanceList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="indianRomanceList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="indianRomanceList">›</button>
+          </div>
+        </div>
+
+        <!-- Row: Indian Comedy -->
+        <div class="row-section" id="indianComedyRow">
+          <div class="row-header">
+            <div class="row-title" id="comedySectionTitle"><span class="row-bar"></span> Indian Comedy</div>
+          </div>
+          <div class="row-scroll-wrapper">
+            <div class="card-row" id="indianComedyList">
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+              <div class="skeleton card-skeleton"></div>
+            </div>
+            <button class="row-arrow row-arrow-left" data-row="indianComedyList">‹</button>
+            <button class="row-arrow row-arrow-right" data-row="indianComedyList">›</button>
+          </div>
+        </div>
+
+      </div><!-- /rows-container -->
+    </div><!-- /home-content -->
+  </div><!-- /main -->
+
+  <!-- PLAYER MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="modal">
+      <div class="modal-left">
+       <div class="modal-player">
+          <div class="player-placeholder" id="playerPlaceholder">
+            <div class="spinner"></div>
+            <div style="font-size:13px;color:var(--muted);">Loading player…</div>
+          </div>
+       <iframe
+    id="playerIframe"
+    allowfullscreen
+    allow="autoplay; encrypted-media; fullscreen"
+    referrerpolicy="origin"
+></iframe>
+        </div>
+
+        <div class="modal-info">
+
+         <div class="modal-title" id="modalTitle"></div>
+
+<div class="modal-meta" id="modalMeta"></div>
+
+<div class="modal-lang-bar"
+     id="modalLangBar"
+     style="display:none;">
+
+    <span class="modal-lang-label">
+        🌐 Audio / Subs
+    </span>
+
+    <div id="modalLangPills"></div>
+
+</div>
+
+<div class="server-bar" id="serverBar">
+
+    <button class="server-btn active"
+            data-server="nxsha">
+          SER-HIN🇮🇳
+    </button>
+
+    <button class="server-btn"
+            data-server="server1">
+         SER-ENG🇺🇸
+    </button>
+
+    <button class="server-btn"
+            data-server="server2">
+           SER2-HIN🇮🇳
+    </button>
+
+   <button class="server-btn"
+        data-server="vidfast">
+   SER3
+</button>
+
+
+</div>
+
+<div class="modal-overview"
+     id="modalOverview"></div>
+
+        </div>
+      </div>
+
+      <div class="modal-right">
+        <div class="modal-close" id="modalClose">✕</div>
+        <div class="season-panel" id="seasonPanel">
+          <div class="season-panel-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            Episodes
+          </div>
+          <div class="season-tabs" id="seasonTabs"></div>
+          <div class="episode-list" id="episodeList"></div>
+        </div>
+        <div class="season-panel" id="modalRecommendations" style="display:none; flex-direction:column; height: 100%;">
+          <div class="season-panel-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Recommended For You
+          </div>
+          <div class="episode-list" id="modalRecommendationsList"></div>
+        </div>
+        <div class="no-episodes-msg" id="noEpisodesMsg">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+          <div>Episode list appears here for TV series</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /appShell -->
+
+  <!-- PROFILE EDIT MODAL -->
+  <div class="modal-backdrop" id="profileModal" style="display:none;">
+    <div class="modal profile-edit-modal" style="max-width:640px; padding:32px; border-radius: 24px; background: #0f1016; border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); position: relative; color: white;">
+      <button class="modal-close" id="profileModalClose" style="position: absolute; top:24px; right:24px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.08); border: none; color: white; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: background 0.2s;">✕</button>
+      
+      <div style="display: flex; gap: 28px; align-items: flex-start;">
+        <!-- Left Title -->
+        <h2 style="font-family:'Outfit',sans-serif; font-size:28px; font-weight: 700; line-height: 1.2; width: 140px; margin: 0; color: white; text-align: left;">Edit your Profile</h2>
+        
+        <!-- Right Content Section -->
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+          <!-- Choose Avatar -->
+          <div>
+            <p style="font-size:11px; text-transform:uppercase; color:var(--muted); letter-spacing: 0.08em; margin-bottom:12px; font-weight:600; text-align: left;">Choose avatar</p>
+            <div class="avatar-selection-row" style="display:flex; gap:10px; margin-bottom:8px;">
+              <div class="avatar-option-circle" data-avatar="👨‍💻" tabindex="0">👨‍💻</div>
+              <div class="avatar-option-circle" data-avatar="👩‍🎨" tabindex="0">👩‍🎨</div>
+              <div class="avatar-option-circle" data-avatar="🧑‍🚀" tabindex="0">🧑‍🚀</div>
+              <div class="avatar-option-circle" data-avatar="🧔" tabindex="0">🧔</div>
+              <div class="avatar-option-circle" data-avatar="👧" tabindex="0">👧</div>
+              <div class="avatar-option-circle" data-avatar="🦊" tabindex="0">🦊</div>
+            </div>
+          </div>
+
+          <!-- Input Name -->
+          <div class="login-field" style="margin-bottom:0;">
+            <label class="login-label" style="text-align: left; display: block;">Name</label>
+            <input class="login-input" id="profileNameInput" type="text" placeholder="Enter your name" style="margin-top:8px;">
+          </div>
+
+          <!-- Custom Avatar Input -->
+          <div class="login-field" style="margin-bottom:0;">
+            <label class="login-label" style="text-align: left; display: block;">Custom Avatar (Type any emoji/character)</label>
+            <input class="login-input" id="profileCustomAvatarInput" type="text" maxlength="2" placeholder="e.g. 👑, 🚀, or AB" style="margin-top:8px;">
+          </div>
+
+          <button id="saveProfileBtn" class="login-btn" style="width:100%; padding:14px; margin-top:8px;">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="module" src="js/app.js"></script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
